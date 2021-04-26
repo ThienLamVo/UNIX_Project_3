@@ -55,6 +55,16 @@ do
       echo "-------------------------"
       echo "Network information"
       echo "-------------------------"
+      echo "Total network interfaces found : $(ls -A /sys/class/net | wc -l)"
+      echo "$(ip a)"
+      echo "***********************"
+      echo "*** Network routing ***"
+      echo "***********************"
+      echo "$(route -e)"
+      echo "*************************************"
+      echo "*** Interface traffic information ***"
+      echo "*************************************"
+      echo "$(netstat -i)"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
@@ -69,6 +79,7 @@ do
       echo "-------------------------"
       echo "Who is online"
       echo "-------------------------"
+      echo "$(who -H)"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
@@ -83,6 +94,7 @@ do
       echo "-------------------------"
       echo "List of last logged in users"
       echo "-------------------------"
+      echo "$(last -10)"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
@@ -111,6 +123,7 @@ do
       echo "-------------------------"
       echo "Disk Usage Info"
       echo "-------------------------"
+      echo "$(df -h | awk '{if ($1 != "Filesystem") print $5 " " $1}')"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
@@ -135,11 +148,56 @@ do
   then
     while true
     do
-      echo "Press [Enter] key to continue..."
-      read enter
-      if [[ $enter = "" ]]
+      echo "(please enter the number of your selection below)"
+      echo ""
+      echo "1. Show all processess"
+      echo "2. Kill a process"
+      echo "3. Bring up top"
+      echo "4. Return to Main Menu"
+      read selection
+      if [[ $selection -eq 1 ]]
+      then
+	while true
+	do
+          echo "$(ps -ef)"
+	  echo "Press :q to return to main menu"
+	  read exit
+	  if [[ $exit = ":q" ]]
+          then
+            break
+	  fi
+	done
+      elif [[ $selection -eq 2 ]]
+      then
+	while true
+        do
+          echo "Please enter the PID of the process you would like to kill:"
+	  read kill
+	  kill -9 $kill
+	  echo "Press :q to return to main menu"
+	  read exit
+	  if [[ $exit = ":q" ]]
+          then
+            break
+	  fi
+	done
+      elif [[ $selection -eq 3 ]]
+      then
+        while true
+        do
+	  top
+	  echo "Press :q to return to main menu"
+	  read exit
+	  if [[ $exit = ":q" ]]
+	  then
+            break
+	  fi
+	done
+      elif [[ $selection -eq 4 ]]
       then
         break
+      else
+        echo "Invalid input"
       fi
     done 
   elif [[ $choice -eq 10 ]]
