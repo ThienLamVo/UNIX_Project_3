@@ -41,6 +41,11 @@ do
       echo "-------------------------"
       echo "Hostname and DNS information"
       echo "-------------------------"
+      echo "Hostname : $HOSTNAME"
+      echo "DNS domain : $(dnsdomainname)"
+      echo "Fully qualified domain name : $(hostname)"
+      echo "Network address (IP) : $(hostname -I)"
+      echo "DNS name servers (DNS IP) : $(grep "nameserver" /etc/resolv.conf)"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
@@ -146,60 +151,7 @@ do
     done 
   elif [[ $choice -eq 9 ]]
   then
-    while true
-    do
-      echo "(please enter the number of your selection below)"
-      echo ""
-      echo "1. Show all processess"
-      echo "2. Kill a process"
-      echo "3. Bring up top"
-      echo "4. Return to Main Menu"
-      read selection
-      if [[ $selection -eq 1 ]]
-      then
-	while true
-	do
-          echo "$(ps -ef)"
-	  echo "Press :q to return to main menu"
-	  read exit
-	  if [[ $exit = ":q" ]]
-          then
-            break
-	  fi
-	done
-      elif [[ $selection -eq 2 ]]
-      then
-	while true
-        do
-          echo "Please enter the PID of the process you would like to kill:"
-	  read kill
-	  kill -9 $kill
-	  echo "Press :q to return to main menu"
-	  read exit
-	  if [[ $exit = ":q" ]]
-          then
-            break
-	  fi
-	done
-      elif [[ $selection -eq 3 ]]
-      then
-        while true
-        do
-	  top
-	  echo "Press :q to return to main menu"
-	  read exit
-	  if [[ $exit = ":q" ]]
-	  then
-            break
-	  fi
-	done
-      elif [[ $selection -eq 4 ]]
-      then
-        break
-      else
-        echo "Invalid input"
-      fi
-    done 
+    ./proc.sh
   elif [[ $choice -eq 10 ]]
   then
     exit
