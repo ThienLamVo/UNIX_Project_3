@@ -114,6 +114,7 @@ do
       echo "-------------------------"
       echo "Public IP information"
       echo "-------------------------"
+      echo "$(host myip.opendns.com resolver1.opendns.com | grep "^myip.opendns.com has address " | awk '{ print $4 }')"
       echo "Press [Enter] key to continue..."
       read enter
       if [[ $enter = "" ]]
